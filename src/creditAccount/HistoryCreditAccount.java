@@ -18,42 +18,52 @@ public class HistoryCreditAccount extends CreditAccount implements HistoryAccoun
 	}
 
 	protected HistoryCreditAccount(int limit, int balance, Client owner) {
-	    // to be completed
+	    super(limit, balance, owner);
+	    this.history = 0;
 	}
 
 	protected HistoryCreditAccount(int balance, Client owner) {
-	    // to be completed
+	    super(balance, owner);
+	    this.history = 0;
 	}
 
         // factory methods for the corresponding constructors
     
 	public static HistoryCreditAccount newOfLimitBalance(int limit, int balance, Client owner) {
-	    // to be completed
+		return new HistoryCreditAccount(limit, balance, owner); 
 	}
 
 	public static HistoryCreditAccount newOfBalance(int balance, Client owner) {
-	    // to be completed
+		return new HistoryCreditAccount(balance, owner);
 	}
 
         // public instance methods
 
 	@Override
 	public int deposit(int amount) {
-	    // to be completed
+	    super.deposit(amount);
+	    this.history = amount;
+	    return super.getBalance();
 	}
 
 	@Override
 	public int withdraw(int amount) {
-	    // to be completed
+	    super.withdraw(amount);
+	    this.history = -1 * amount;
+	    return super.getBalance();
 	}
 
 	@Override
 	public long undo() {
-	    // to be completed
+	    this.requireNonZeroHistory();
+	    this.operation(history);
+	    return super.getBalance();
 	}
 
 	@Override
 	public long redo() {
-	    // to be completed
+		this.requireNonZeroHistory();
+	    this.operation(history);
+	    return super.getBalance();
 	}
 }
